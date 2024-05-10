@@ -1,0 +1,10 @@
+{
+    "SIZE": [40, 40],
+    "IMAGE": "assets/monster_cropped.png",
+    "CHANCE_TO_DO_RANDOM_MOVE": 0.2,
+    "HEALTH_BAR_ICON": "♥",
+    "HEALTH_BAR_COLOR": "red",
+    "HEALTH": 3,
+    "SPEED": 1,
+    "DAMAGE": 1
+}

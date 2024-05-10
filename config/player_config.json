@@ -1,0 +1,10 @@
+{
+    "SIZE": [36, 48],
+    "IMAGE": "assets/daos_cropped.gif",
+    "HEALTH_BAR_ICON": "♥",
+    "HEALTH_BAR_COLOR": "red",
+    "HEALTH": 5,
+    "SPEED": 4,
+    "DAMAGE": 1,
+    "HIT_RECT_SIZE": [32, 32]
+}
