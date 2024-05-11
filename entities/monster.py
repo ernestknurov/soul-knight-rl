@@ -8,7 +8,7 @@ from graphics.animation import Animation
 
 class Monster:
     def __init__(self, pos):
-        self.pos = pos
+        self.pos = pos.copy()
         self.config = load_monster_config()
         self.size = self.config['SIZE']
 

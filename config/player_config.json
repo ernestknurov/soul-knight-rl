@@ -8,5 +8,5 @@
     "DAMAGE": 1,
     "ROLLBACK": 10,
     "HIT_RECT_SIZE": [32, 32],
-    "SHOW_HIT_BOXES": true
+    "SHOW_HIT_BOXES": false
 }

@@ -8,8 +8,8 @@ from graphics.animation import Animation
 
 class Player:
     def __init__(self, pos):
-        self.pos = pos
-        self.start_pos = pos
+        self.pos = pos.copy()
+        self.start_pos = pos.copy()
         self.config = load_player_config()
         self.size = self.config['SIZE']
 
@@ -46,10 +46,7 @@ class Player:
     def restart(self):
         self.health = self.config['HEALTH']
         self.pos = self.start_pos.copy()
-        print(self.pos)
-        print("f", self.start_pos)
-        # self.rect = self.rect.move(*self.pos)
-        self.rect.topleft = self.pos
+        self.rect.topleft = self.start_pos.copy()
         self.hit_rect = self.rect.copy().inflate(self.config['HIT_RECT_SIZE'])
         self.current_rollback = 0
 
