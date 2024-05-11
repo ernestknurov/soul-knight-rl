@@ -1,0 +1,8 @@
+{
+    "HEADER_POS": [260, 100],
+    "FIRST_OPTION_POS": [170, 200],
+    "OPTION_SIZE": [300, 50],
+    "OPTIONS_GAP": [0, 75],
+    "BACKGROUND_COLOR": "gray",
+    "OPTION_COLOR": "khaki1"
+}

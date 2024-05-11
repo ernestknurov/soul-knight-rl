@@ -24,3 +24,8 @@ def load_animation_config():
     with open("config/animation_config.json", "r") as file:
         data = json.load(file)
     return data
+
+def load_menu_config():
+    with open("config/menu_config.json", "r") as file:
+        data = json.load(file)
+    return data

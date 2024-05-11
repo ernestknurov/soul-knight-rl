@@ -7,19 +7,26 @@ from entities.room import Room
 from config.config_loader import *
 
 class GameState:
-    def __init__(self, screen):
-        self.screen = screen
+    def __init__(self, game):
+        self.game = game
         self.room_config = load_room_config()
         self.monster_config = load_monster_config()
         self.player_config = load_player_config()
         self.screen_config = load_screen_config()
+        # Mappings
+        self.key_to_direction = {K_UP: [0, -1], K_DOWN: [0, 1], K_LEFT: [-1, 0], K_RIGHT: [1, 0]}
+        # Initialize placeholders for game objects
+        self.room = None
+        self.player = None
+        self.monsters = None
+        self.animations = []
+
+    def enter(self):
         self.room = Room()
         self.player = Player(self.room_config['PLAYER_START_POSITION'])
         self.monsters = self.create_monsters(self.room_config['NUM_MONSTERS'])
         self.animations = []
         self.pressed_keys = {K_UP: False, K_DOWN: False, K_LEFT: False, K_RIGHT: False}
-        self.key_to_direction = {K_UP: [0, -1], K_DOWN: [0, 1], K_LEFT: [-1, 0], K_RIGHT: [1, 0]}
-        
 
     def create_monsters(self, amount: int) -> list:
             room_boundaries = ((self.room_config['POS'][0], self.room_config['POS'][0] + self.room_config['SIZE'][0] - self.monster_config['SIZE'][0]), 
@@ -81,6 +88,9 @@ class GameState:
                     if monster.health <= 0:
                         self.monsters.remove(monster)
 
+            elif event.key == K_ESCAPE:
+                self.game.state_manager.change_state('menu')
+
         elif event.type == KEYUP:
             if event.key in self.key_to_direction:
                 self.pressed_keys[event.key] = False
@@ -114,16 +124,20 @@ class GameState:
         for monster in self.monsters:
             monster.update()
         
-        
-    def render(self):
-        self.screen.fill(Color(self.screen_config['BACKGROUND_COLOR']))
-        self.room.render(self.screen)
+
+    def render(self, screen):
+        screen.fill(Color(self.screen_config['BACKGROUND_COLOR']))
+        self.room.render(screen)
         for animation in self.animations:
             if animation.active:
-                animation.render(self.screen)
+                animation.render(screen)
             else:
                 self.animations.remove(animation)
         for monster in self.monsters:
-            monster.render(self.screen)
-        self.player.render(self.screen)
+            monster.render(screen)
+        self.player.render(screen)
 
+    def exit(self):
+        del self.player
+        del self.room
+        del self.monsters
