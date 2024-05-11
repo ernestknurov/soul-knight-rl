@@ -3,7 +3,7 @@
     "POS": [80, 80],
     "SIZE": [480, 480],
     "PLAYER_START_POSITION": [295, 500],
-    "NUM_MONSTERS": 5,
+    "NUM_MONSTERS": 3,
     "BORDER_COLOR": "black",
     "BORDER_WIDTH": 4,
     "CELL_BORDER_COLOR": "azure4",

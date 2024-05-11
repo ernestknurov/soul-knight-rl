@@ -4,13 +4,14 @@ from pygame.locals import *
 from entities.player import Player
 from entities.monster import Monster
 from entities.room import Room
-from config.config_loader import load_room_config, load_monster_config, load_screen_config
+from config.config_loader import *
 
 class GameState:
     def __init__(self, screen):
         self.screen = screen
         self.room_config = load_room_config()
         self.monster_config = load_monster_config()
+        self.player_config = load_player_config()
         self.screen_config = load_screen_config()
         self.room = Room()
         self.player = Player(self.room_config['PLAYER_START_POSITION'])
@@ -93,21 +94,36 @@ class GameState:
                 if self.is_room_collision(self.player) or self.is_entities_collision(self.player):
                     self.player.move([-direction[0], -direction[1]], self.player.speed)
 
+        # hiting
+        for monster in self.monsters:
+            animation = monster.hit(self.player)
+            if animation:
+                self.animations.append(animation)
+            if self.player.health <= 0:
+                self.player.restart()
+
+        # moving
         for monster in self.monsters:
             direction = self.choose_direction(monster)
             monster.move(direction, monster.speed)
             if self.is_room_collision(monster) or self.is_entities_collision(monster):
                 monster.move([-direction[0], -direction[1]], monster.speed)
 
+        # updating
+        self.player.update()
+        for monster in self.monsters:
+            monster.update()
+        
+        
     def render(self):
         self.screen.fill(Color(self.screen_config['BACKGROUND_COLOR']))
         self.room.render(self.screen)
-        for monster in self.monsters:
-            monster.render(self.screen)
-        self.player.render(self.screen)
-
         for animation in self.animations:
             if animation.active:
                 animation.render(self.screen)
             else:
                 self.animations.remove(animation)
+        for monster in self.monsters:
+            monster.render(self.screen)
+        self.player.render(self.screen)
+

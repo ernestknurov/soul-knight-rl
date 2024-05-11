@@ -9,12 +9,16 @@ from graphics.animation import Animation
 class Player:
     def __init__(self, pos):
         self.pos = pos
+        self.start_pos = pos
         self.config = load_player_config()
         self.size = self.config['SIZE']
 
         self.health = self.config['HEALTH']
         self.damage = self.config['DAMAGE']
         self.speed = self.config['SPEED']
+        self.rollback = self.config['ROLLBACK']
+        self.current_rollback = 0
+        self.show_hit_boxes = self.config['SHOW_HIT_BOXES']
 
         self.health_bar = EmojiText(self.health * self.config['HEALTH_BAR_ICON'], self.pos, 
                                     'applecoloremoji', color=self.config['HEALTH_BAR_COLOR'])
@@ -32,15 +36,31 @@ class Player:
             
     def hit(self, monster):
         if self.hit_rect.colliderect(monster.rect):
-            monster.health -= self.damage
-            if monster.health <= 0:
-                return None
-            return Animation(monster.rect.topleft, monster.size)
+            if self.current_rollback == 0:
+                self.current_rollback = self.rollback
+                monster.health -= self.damage
+                if monster.health <= 0:
+                    return None
+                return Animation(monster.rect)
+ 
+    def restart(self):
+        self.health = self.config['HEALTH']
+        self.pos = self.start_pos.copy()
+        print(self.pos)
+        print("f", self.start_pos)
+        # self.rect = self.rect.move(*self.pos)
+        self.rect.topleft = self.pos
+        self.hit_rect = self.rect.copy().inflate(self.config['HIT_RECT_SIZE'])
+        self.current_rollback = 0
+
+    def update(self):
+        if self.current_rollback > 0:
+            self.current_rollback -= 1
 
     def render(self, screen):
-        # Hit boxes
-        pygame.draw.rect(screen, Color('black'), self.rect, width=1)
-        pygame.draw.rect(screen, Color('green'), self.hit_rect, width=1)
+        if self.show_hit_boxes:
+            pygame.draw.rect(screen, Color('black'), self.rect, width=1)
+            pygame.draw.rect(screen, Color('green'), self.hit_rect, width=1)
         screen.blit(self.image, self.rect)
         if self.health:
             self.health_bar = EmojiText(self.health * self.config['HEALTH_BAR_ICON'], self.pos, 

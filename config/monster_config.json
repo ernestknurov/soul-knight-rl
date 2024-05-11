@@ -6,5 +6,8 @@
     "HEALTH_BAR_COLOR": "red",
     "HEALTH": 3,
     "SPEED": 1,
-    "DAMAGE": 1
+    "DAMAGE": 1,
+    "ROLLBACK": 50,
+    "HIT_RECT_SIZE": [5, 5],
+    "SHOW_HIT_BOXES": false
 }

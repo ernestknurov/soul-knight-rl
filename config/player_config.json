@@ -6,5 +6,7 @@
     "HEALTH": 5,
     "SPEED": 4,
     "DAMAGE": 1,
-    "HIT_RECT_SIZE": [32, 32]
+    "ROLLBACK": 10,
+    "HIT_RECT_SIZE": [32, 32],
+    "SHOW_HIT_BOXES": true
 }

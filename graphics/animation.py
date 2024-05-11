@@ -4,9 +4,10 @@ from config.config_loader import load_animation_config
 
 
 class Animation:
-    def __init__(self, pos, size, duration=10) -> None:
-        self.pos = pos
-        self.size = size
+    def __init__(self, rect, duration=10) -> None:
+        self.rect = rect
+        # self.pos = rect.topleft
+        # self.size = rect.size
         self.duration = duration
         self.active = True
         self.config = load_animation_config()
@@ -14,7 +15,7 @@ class Animation:
     def render(self, screen):
         if self.active:
             if self.duration % 2 == 0:
-                pygame.draw.rect(screen, Color(self.config['COLOR']), (self.pos, self.size), self.config['BORDER_WIDTH'])
+                pygame.draw.rect(screen, Color(self.config['COLOR']), self.rect, self.config['BORDER_WIDTH'])
         self.update()
 
     def update(self):
