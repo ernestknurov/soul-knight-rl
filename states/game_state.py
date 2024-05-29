@@ -36,7 +36,7 @@ class GameState:
                 x = random.randint(*room_boundaries[0])
                 y = random.randint(*room_boundaries[1])
                 monster = Monster([x, y])
-                if any(box.colliderect(monster.rect) for box in self.room.boxes) \
+                if any(block.colliderect(monster.rect) for block in self.room.impassable_blocks) \
                     or self.player.rect.colliderect(monster.rect) \
                     or not self.room.rect.contains(monster.rect):
                     continue
@@ -65,7 +65,7 @@ class GameState:
         return direction
     
     def is_room_collision(self, obj):
-        return not self.room.rect.contains(obj.rect) or any(obj.rect.colliderect(box) for box in self.room.boxes)
+        return not self.room.rect.contains(obj.rect) or any(obj.rect.colliderect(block) for block in self.room.impassable_blocks)
     
     def is_entities_collision(self, obj):
         entities = [self.player, *self.monsters]
